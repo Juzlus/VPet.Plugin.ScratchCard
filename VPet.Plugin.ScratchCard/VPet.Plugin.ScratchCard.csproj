@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows7.0</TargetFramework>
+		<OutputType>Library</OutputType>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<UseWPF>true</UseWPF>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Images\scratchcard_normal_back.png" />
+	  <None Remove="Images\scratchcard_normal_front.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="LinePutScript" Version="1.11.8" />
+	  <PackageReference Include="LinePutScript.Localization.WPF" Version="1.0.7" />
+	  <PackageReference Include="Panuon.WPF" Version="1.1.1" />
+	  <PackageReference Include="Panuon.WPF.UI" Version="1.2.3.1" />
+	  <PackageReference Include="VPet-Simulator.Core" Version="1.1.0.25" />
+	  <PackageReference Include="VPet-Simulator.Windows.Interface" Version="1.1.0.25" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Images\scratchcard_normal_back.png" />
+	  <Resource Include="Images\scratchcard_normal_front.png" />
+	</ItemGroup>
+
+</Project>

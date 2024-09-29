@@ -1,0 +1,16 @@
+ScratchCard#ScratchCard:|
+Scratch Card#Scratch Card:|
+Are you sure you want to leave without scratching the scratch card?#Are you sure you want to leave without scratching the scratch card?:|
+Exit without scratching#Exit without scratching:|
+Turn off messages#Turn off messages:|
+Turn on messages#Turn on messages:|
+
+ScratchCardIntro#Try your luck!:|
+
+scratchcard_normal#Sratch Card Normal:|
+scratchcard_premium#Sratch Card Premium:|
+scratchcard_premium_plus#Sratch Card Premium+:|
+
+scratchcard_normal_DescriptionID#\nPossible drop:\n50% - Nothing\n 5% - 25$\n10% - 50$\n10% - 75$\n15% - 100$\n 6% - 200$\n 3% - 500$\n 1% - 950$:|
+scratchcard_premium_DescriptionID#\nPossible drop:\n 50% - Nothing\n  5% - 250$\n  5% - 500$\n 10% - 950$\n 13% - 1,200$\n  7% - 1,900$\n  5% - 3,000$\n  3% - 5,000$\n1.5% - 10,000$\n0.5% - 25,000$:|
+scratchcard_premium_plus_DescriptionID#\nPossible drop:\n  50% - Nothing\n   5% - 1,000$\n  12% - 2,000$\n14.8% - 2,500$\n  10% - 3500$\n   5% - 5,000$\n   2% - 12,500$\n   1% - 50,000$\n 0.2% - 100,000$:|

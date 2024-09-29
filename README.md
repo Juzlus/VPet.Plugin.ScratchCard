@@ -8,6 +8,8 @@ Try your luck! 🎲
 > [!NOTE]  
 > Remember kids, gambling is for adults only.
 
+_The design of the scratchcards taken from the game Zenless Zone Zero._
+
  [Page on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3339638979).
 
 ## ✨ Usage (NuGet package)

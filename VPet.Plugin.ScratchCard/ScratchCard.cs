@@ -17,6 +17,7 @@ namespace VPet.Plugin.ScratchCard
         private int multiplier = 5;
         private int cardBuyed = 0;
         private bool isSay = true;
+        private int attempts = 0;
 
         public Dialogue dialogue = new Dialogue();
         public DropRates dropRates = new DropRates();
@@ -37,15 +38,22 @@ namespace VPet.Plugin.ScratchCard
 
         private async void CreateBuyListing()
         {
-            if (Application.Current.Windows.Count < 4)
+            WindowX winBetterBuy = null;
+            foreach (WindowX winX in Application.Current.Windows)
+                if (winX.ToString() == "VPet_Simulator.Windows.winBetterBuy")
+                    winBetterBuy = winX;
+
+            if (winBetterBuy == null)
             {
                 await Task.Delay(1000);
-                CreateBuyListing();
+                if (this.attempts <= 10)
+                    CreateBuyListing();
+                this.attempts++;
                 return;
             }
 
-            WindowX winBetterBuy = (WindowX)Application.Current.Windows[2];
             ItemsControl icCommodity = (ItemsControl)winBetterBuy.FindName("IcCommodity");
+            if (icCommodity == null) return;
 
             icCommodity.ItemContainerGenerator.ItemsChanged += async (sender, args) =>
             {

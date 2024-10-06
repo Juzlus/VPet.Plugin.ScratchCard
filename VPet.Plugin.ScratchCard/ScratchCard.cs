@@ -47,7 +47,7 @@ namespace VPet.Plugin.ScratchCard
             {
                 await Task.Delay(1000);
                 if (this.attempts <= 10)
-                    CreateBuyListing();
+                    this.CreateBuyListing();
                 this.attempts++;
                 return;
             }

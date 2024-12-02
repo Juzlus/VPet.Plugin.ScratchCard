@@ -22,6 +22,7 @@ public partial class Card : Window
     private Drop drop;
     private int brushRadius = 10;
     private bool isScratching = false;
+    private Point? lastPosition = null;
 
     public Card(ScratchCard main, string cardName)
     {
@@ -71,7 +72,12 @@ public partial class Card : Window
 
     private void ScratchImage(object sender, MouseEventArgs e)
     {
-        if (e.LeftButton != MouseButtonState.Pressed || !this.isScratching) return;
+        if (e.LeftButton != MouseButtonState.Pressed || !this.isScratching)
+        {
+            this.lastPosition = null;
+            return;
+        }
+
         if (this.scratchedPixels >= this.pixelsToScratch * this.percentToScratch)
         {
             this.scratchedPixels = 0;
@@ -82,13 +88,55 @@ public partial class Card : Window
         BitmapSource bitmapSource = this.FrontImage.Source as BitmapSource;
         if (bitmapSource == null) return;
 
-        Point position = e.GetPosition(this.FrontImage);
-        int x = (int)(position.X * (bitmapSource.PixelWidth / this.FrontImage.ActualWidth));
-        int y = (int)(position.Y * (bitmapSource.PixelHeight / this.FrontImage.ActualHeight));
+        Point currentPosition = e.GetPosition(this.FrontImage);
+        int x = (int)(currentPosition.X * (bitmapSource.PixelWidth / this.FrontImage.ActualWidth));
+        int y = (int)(currentPosition.Y * (bitmapSource.PixelHeight / this.FrontImage.ActualHeight));
 
         WriteableBitmap writeableBitmap = new WriteableBitmap(bitmapSource);
         writeableBitmap.Lock();
 
+        if (this.lastPosition.HasValue)
+        {
+            int lastX = (int)(this.lastPosition.Value.X * (bitmapSource.PixelWidth / this.FrontImage.ActualWidth));
+            int lastY = (int)(this.lastPosition.Value.Y * (bitmapSource.PixelHeight / this.FrontImage.ActualHeight));
+            this.BresenhamLine(lastX, lastY, x, y, writeableBitmap);
+        }
+
+        this.lastPosition = currentPosition;
+        writeableBitmap.Unlock();
+        this.FrontImage.Source = writeableBitmap;
+    }
+
+    private void BresenhamLine(int x0, int y0, int x1, int y1, WriteableBitmap writeableBitmap)
+    {
+        int dx = Math.Abs(x1 - x0);
+        int dy = Math.Abs(y1 - y0);
+        int err = dx - dy;
+
+        int sx = x0 < x1 ? 1 : -1;
+        int sy = y0 < y1 ? 1 : -1;
+
+        while (true)
+        {
+            this.ScratchAt(x0, y0, writeableBitmap);
+            if (x0 == x1 && y0 == y1) break;
+            int e2 = 2 * err;
+            if (e2 > -dy)
+            {
+                err -= dy;
+                x0 += sx;
+            }
+            if (e2 < dx)
+            {
+                err += dx;
+                y0 += sy;
+            }
+        }
+
+    }
+
+    private void ScratchAt(int x, int y, WriteableBitmap writeableBitmap)
+    {
         for (int i = -this.brushRadius; i <= this.brushRadius; i++)
             for (int j = -this.brushRadius; j <= this.brushRadius; j++)
             {
@@ -100,7 +148,7 @@ public partial class Card : Window
 
                 double distance = Math.Sqrt(i * i + j * j);
                 if (distance > this.brushRadius) continue;
-                
+
                 unsafe
                 {
                     IntPtr buffer = writeableBitmap.BackBuffer;
@@ -112,8 +160,6 @@ public partial class Card : Window
                     p[3] = 0;
                 }
             }
-        writeableBitmap.Unlock();
-        this.FrontImage.Source = writeableBitmap;
     }
 
     private void ScratchOff()
@@ -135,12 +181,13 @@ public partial class Card : Window
 
     private void ScratchImage_MouseEnter(object sender, MouseEventArgs e)
     {
-        isScratching = true;
+        this.isScratching = true;
     }
 
     private void ScratchImage_MouseLeave(object sender, MouseEventArgs e)
     {
-        isScratching = false;
+        this.isScratching = false;
+        this.lastPosition = null;
     }
 
     private void Exit(object sender, MouseButtonEventArgs e)

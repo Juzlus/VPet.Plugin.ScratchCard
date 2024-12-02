@@ -39,9 +39,9 @@ namespace VPet.Plugin.ScratchCard
         private async void CreateBuyListing()
         {
             WindowX winBetterBuy = null;
-            foreach (WindowX winX in Application.Current.Windows)
+            foreach (object winX in Application.Current.Windows)
                 if (winX.ToString() == "VPet_Simulator.Windows.winBetterBuy")
-                    winBetterBuy = winX;
+                    winBetterBuy = (WindowX)winX;
 
             if (winBetterBuy == null)
             {

@@ -65,8 +65,8 @@ namespace VPet.Plugin.ScratchCard
                     if (contentPresenter == null) continue;
                     Button button = FindChild<Button>(contentPresenter);
                     if (button == null) continue;
-                    button.Click -= ItemBuyed;
-                    button.Click += ItemBuyed;
+                    button.PreviewMouseDown -= ItemBuyed;
+                    button.PreviewMouseDown += ItemBuyed;
                 }
             };
         }
@@ -78,7 +78,11 @@ namespace VPet.Plugin.ScratchCard
             if (item == null) return;
             string name = item.Name;
             if (!name.StartsWith("scratchcard_")) return;
-            
+
+            double price = item.Price;
+            if (price > this.MW.GameSavesData.GameSave.Money)
+                return;
+
             Card card = new Card(this, name);
             card.Show();
             this.cardBuyed++;
